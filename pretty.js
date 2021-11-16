@@ -22,7 +22,7 @@ function prettyBody(body) {
 }
 
 dispatch.Chunk = (chunk) => chunk.body.map(pretty).join('\n')
-dispatch.BinaryExpression = (expr) => pretty(expr.left) + expr.operator + pretty(expr.right)
+dispatch.BinaryExpression = (expr) => `(${pretty(expr.left)} ${expr.operator} ${pretty(expr.right)})`
 dispatch.Identifier = (ident) => ident.name
 dispatch.NumericLiteral = (lit) => lit.raw
 dispatch.StringLiteral = (lit) => {
@@ -89,7 +89,7 @@ dispatch.WhileStatement = (stmt) => {
   return `while ${cond} do${body}end`
 }
 dispatch.LogicalExpression = (exp) =>
-  `${pretty(exp.left)} ${exp.operator} ${pretty(exp.right)}`
+  `(${pretty(exp.left)} ${exp.operator} ${pretty(exp.right)})`
 dispatch.UnaryExpression = (exp) => `${exp.operator} ${pretty(exp.argument)}`
 dispatch.IfStatement = (stmt) => {
   return stmt.clauses.map(pretty).join('') + 'end'
