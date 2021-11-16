@@ -27,6 +27,10 @@ while not k < 3 and k > 4 do
   k = k / 2
 end
 
+("foo"):gsub(".", function(c)
+  print(c)
+end)
+
 string.char = 5
 string['char'] = 6
 tonumber('0x8'):read()

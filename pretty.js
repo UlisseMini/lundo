@@ -46,7 +46,7 @@ dispatch.FunctionDeclaration = (fn) => {
   var body = prettyBody(fn.body)
   var prefix = 'function'
   if (fn.identifier != null) {prefix += ' ' + fn.identifier.name}
-  return `${prefix}(${params})${body}end\n`
+  return `${prefix}(${params})${body}end`
 }
 dispatch.ReturnStatement = (ret) => 'return ' + ret.arguments.map(pretty).join(', ')
 dispatch.CallStatement = (stmt) => {
@@ -63,7 +63,7 @@ dispatch.ForNumericStatement = (f) => {
   var step = f.step ? ',' + pretty(f.step) : ''
   var main = pretty(f.variable) + '=' + [f.start, f.end].map(pretty).join(',') + step
   var body = prettyBody(f.body)
-  return `for ${main} do${body}end\n`
+  return `for ${main} do${body}end`
 }
 dispatch.ForGenericStatement = (f) => {
   var main = f.variables.map(pretty).join(',') + ' in ' + f.iterators.map(pretty).join(',')
