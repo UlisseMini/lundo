@@ -4,6 +4,7 @@ import pretty from './pretty.js'
 
 const textarea = document.querySelector('textarea')
 const button = document.querySelector('button')
+const msg = document.getElementById('msg')
 
 textarea.addEventListener('keydown', (e) => {
   console.log(e.keyCode)
@@ -21,7 +22,18 @@ textarea.addEventListener('keydown', (e) => {
 button.addEventListener('click', (e) => {
   e.preventDefault()
   const luaCode = textarea.value
-  const ast = parser.parse(luaCode, {encodingMode: 'pseudo-latin1'})
+  try {
+    const ast = parser.parse(luaCode, {encodingMode: 'pseudo-latin1'})
+  } catch (e) {
+    msg.textContent = e.message
+    msg.style.visibility = ''
+    msg.style.color = 'red'
+    return
+  }
+  msg.textContent = 'Format successful'
+  msg.style.visibility = ''
+  msg.style.color = 'green'
+
   const prettyLuaCode = pretty(ast)
   textarea.value = prettyLuaCode
 })
