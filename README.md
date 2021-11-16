@@ -1,6 +1,6 @@
 ## lundo
 
-Lua deobstrafacator
+Lua deobfuscator
 
 - [x] Pretty printer
 - [x] Rewrite string literals with escapes in them
