@@ -18,7 +18,7 @@ function pretty(ast) {
 // TODO: Overload pretty by checking if ast is an array?
 function prettyBody(body) {
   const s = '\n' + INDENT.repeat(++depth)
-  return s + body.map(pretty).join('\n' + s) + '\n' + INDENT.repeat(--depth)
+  return s + body.map(pretty).join(s) + '\n' + INDENT.repeat(--depth)
 }
 
 dispatch.Chunk = (chunk) => chunk.body.map(pretty).join('\n')
@@ -46,7 +46,7 @@ dispatch.FunctionDeclaration = (fn) => {
   var body = prettyBody(fn.body)
   var prefix = 'function'
   if (fn.identifier != null) {prefix += ' ' + fn.identifier.name}
-  return `${prefix}(${params})\n${body}\nend\n`
+  return `${prefix}(${params})${body}end\n`
 }
 dispatch.ReturnStatement = (ret) => 'return ' + ret.arguments.map(pretty).join(', ')
 dispatch.CallStatement = (stmt) => {
@@ -63,12 +63,12 @@ dispatch.ForNumericStatement = (f) => {
   var step = f.step ? ',' + pretty(f.step) : ''
   var main = pretty(f.variable) + '=' + [f.start, f.end].map(pretty).join(',') + step
   var body = prettyBody(f.body)
-  return `for ${main} do\n${body}\nend\n`
+  return `for ${main} do${body}end\n`
 }
 dispatch.ForGenericStatement = (f) => {
   var main = f.variables.map(pretty).join(',') + ' in ' + f.iterators.map(pretty).join(',')
   var body = prettyBody(f.body)
-  return `for ${main} do\n${body}\nend`
+  return `for ${main} do${body}end`
 }
 dispatch.TableCallExpression = (expr) => {
   return pretty(expr.base) + ' ' + pretty(expr.arguments)
@@ -92,11 +92,11 @@ dispatch.LogicalExpression = (exp) =>
   `${pretty(exp.left)} ${exp.operator} ${pretty(exp.right)}`
 dispatch.UnaryExpression = (exp) => `${exp.operator} ${pretty(exp.argument)}`
 dispatch.IfStatement = (stmt) => {
-  return stmt.clauses.map(pretty).join('\n') + '\nend'
+  return stmt.clauses.map(pretty).join('') + 'end'
 }
-dispatch.IfClause = (c) => `if ${pretty(c.condition)} then\n${prettyBody(c.body)}`
-dispatch.ElseifClause = (c) => `elseif ${pretty(c.condition)} then\n${prettyBody(c.body)}`
-dispatch.ElseClause = (c) => `else\n${prettyBody(c.body)}`
+dispatch.IfClause = (c) => `if ${pretty(c.condition)} then${prettyBody(c.body)}`
+dispatch.ElseifClause = (c) => `elseif ${pretty(c.condition)} then${prettyBody(c.body)}`
+dispatch.ElseClause = (c) => `else${prettyBody(c.body)}`
 
 
 module.exports = (ast) => {depth = 0; return pretty(ast)}

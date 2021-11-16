@@ -7,7 +7,7 @@ xyz = function(a,s,d)local k=s+a
 
 function asdf(a,d) return a*d end
 
-for i=1,5,2 do print(i);print'boo' end
+for i=1,5,2 do print(i)print'boo' end
 for i=1,100 do print(i) end
 
 for v in ipairs{5,4,3} do print(v) end
@@ -24,6 +24,7 @@ print(string['char'](69))
 while not k < 3 and k > 4 do
   print(k)
   k = k + 1
+  k = k / 2
 end
 
 string.char = 5
