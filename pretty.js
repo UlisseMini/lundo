@@ -1,4 +1,5 @@
 const INDENT = '  '
+var depth = 0 // TODO: Don't use global variables
 
 const dispatch = {}
 
@@ -16,7 +17,8 @@ function pretty(ast) {
 
 // TODO: Overload pretty by checking if ast is an array?
 function prettyBody(body) {
-  return INDENT + body.map(pretty).join('\n' + INDENT)
+  const s = '\n' + INDENT.repeat(++depth)
+  return s + body.map(pretty).join('\n' + s) + '\n' + INDENT.repeat(--depth)
 }
 
 dispatch.Chunk = (chunk) => chunk.body.map(pretty).join('\n')
@@ -84,7 +86,7 @@ dispatch.WhileStatement = (stmt) => {
   var cond = pretty(stmt.condition)
   var body = prettyBody(stmt.body)
 
-  return `while ${cond} do\n${body}\nend`
+  return `while ${cond} do${body}end`
 }
 dispatch.LogicalExpression = (exp) =>
   `${pretty(exp.left)} ${exp.operator} ${pretty(exp.right)}`
@@ -96,4 +98,5 @@ dispatch.IfClause = (c) => `if ${pretty(c.condition)} then\n${prettyBody(c.body)
 dispatch.ElseifClause = (c) => `elseif ${pretty(c.condition)} then\n${prettyBody(c.body)}`
 dispatch.ElseClause = (c) => `else\n${prettyBody(c.body)}`
 
-module.exports = {'dispatch': dispatch, 'pretty': pretty, 'prettyBody': prettyBody}
+
+module.exports = (ast) => {depth = 0; return pretty(ast)}
