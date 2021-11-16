@@ -98,5 +98,4 @@ dispatch.IfClause = (c) => `if ${pretty(c.condition)} then${prettyBody(c.body)}`
 dispatch.ElseifClause = (c) => `elseif ${pretty(c.condition)} then${prettyBody(c.body)}`
 dispatch.ElseClause = (c) => `else${prettyBody(c.body)}`
 
-
-module.exports = (ast) => {depth = 0; return pretty(ast)}
+export default pretty
