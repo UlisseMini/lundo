@@ -1,5 +1,8 @@
-foo = 0; bar =1
+foo = 0; bar = 0x33
 
+bar = nil
+
+-- comment
 local qux = 300
 
 xyz = function(a,s,d)local k=s+a
@@ -11,6 +14,7 @@ for i=1,5,2 do print(i)print'boo' end
 for i=1,100 do print(i) end
 
 for v in ipairs{5,4,3} do print(v) end
+print(true)
 
 for k,v in pairs{a=4,d=6,[print]=7} do print(k,v) end
 
@@ -25,7 +29,10 @@ while not k < 3 and k > 4 do
   print(k)
   k = k + 1
   k = k / 2
+  break
 end
+
+repeat k = k + 1 until k > 10
 
 ("foo"):gsub(".", function(c)
   print(c)

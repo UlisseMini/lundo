@@ -25,6 +25,9 @@ dispatch.Chunk = (chunk) => chunk.body.map(pretty).join('\n')
 dispatch.BinaryExpression = (expr) => `(${pretty(expr.left)} ${expr.operator} ${pretty(expr.right)})`
 dispatch.Identifier = (ident) => ident.name
 dispatch.NumericLiteral = (lit) => lit.raw
+dispatch.NilLiteral = (lit) => lit.raw
+dispatch.BooleanLiteral = (lit) => lit.raw
+dispatch.BreakStatement = (b) => 'break'
 dispatch.StringLiteral = (lit) => {
   if (lit.value == null)
     throw new Error(`string literal value is null, did you set encodingMode on luaparse?`)
@@ -87,6 +90,11 @@ dispatch.WhileStatement = (stmt) => {
   var body = prettyBody(stmt.body)
 
   return `while ${cond} do${body}end`
+}
+dispatch.RepeatStatement = (stmt) => {
+  var cond = pretty(stmt.condition)
+  var body = prettyBody(stmt.body)
+  return `repeat${body}until ${cond}`
 }
 dispatch.LogicalExpression = (exp) =>
   `(${pretty(exp.left)} ${exp.operator} ${pretty(exp.right)})`
