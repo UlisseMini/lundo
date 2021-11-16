@@ -1,0 +1,18 @@
+html { font-size: calc(1em + 0.3vw); }
+
+body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+textarea {
+  width: 800px;
+  height: 600px;
+  font-size: 1rem;
+}
+
+button {
+  font-size: 1rem;
+}
