@@ -21,9 +21,12 @@ textarea.addEventListener('keydown', (e) => {
 
 button.addEventListener('click', (e) => {
   e.preventDefault()
-  const luaCode = textarea.value
   try {
+    const luaCode = textarea.value
     const ast = parser.parse(luaCode, {encodingMode: 'pseudo-latin1'})
+
+    const prettyLuaCode = pretty(ast)
+    textarea.value = prettyLuaCode
   } catch (e) {
     msg.textContent = e.message
     msg.style.visibility = ''
@@ -33,7 +36,4 @@ button.addEventListener('click', (e) => {
   msg.textContent = 'Format successful'
   msg.style.visibility = ''
   msg.style.color = 'green'
-
-  const prettyLuaCode = pretty(ast)
-  textarea.value = prettyLuaCode
 })
